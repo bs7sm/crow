@@ -1,0 +1,310 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROW | كرو - المنيو الرقمي</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo & Alex Brush / Playfair for sleek branding -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: 'var(--color-primary, #3F4E46)',
+                            secondary: 'var(--color-secondary, #2A3530)',
+                            accent: 'var(--color-accent, #D4AF37)',
+                            bgLight: 'var(--color-bg-light, #FAF9F5)',
+                            cardLight: 'var(--color-card-light, #FFFFFF)',
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --color-primary: #3F4E46;
+            --color-secondary: #2C3832;
+            --color-accent: #C5A880;
+            --color-bg-light: #F7F6F0;
+            --color-card-light: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .brand-logo-text {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.15em;
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 10px;
+        }
+
+        .badge-glow {
+            box-shadow: 0 0 12px rgba(197, 168, 128, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-brand-bgLight text-gray-800 dark:bg-zinc-950 dark:text-zinc-100 min-h-screen flex flex-col antialiased">
+
+    <!-- Seasonal Header Banner (Festive Mode) -->
+    <div id="seasonal-banner" class="hidden relative overflow-hidden bg-amber-900 text-white shadow-md transition-all">
+        <div id="seasonal-banner-bg" class="absolute inset-0 bg-cover bg-center opacity-35"></div>
+        <div class="relative max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between text-center sm:text-right gap-2 z-10">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl animate-bounce" id="seasonal-icon">🌙</span>
+                <div>
+                    <h4 id="seasonal-title" class="font-bold text-base sm:text-lg text-amber-200 leading-tight">رمضان مبارك</h4>
+                    <p id="seasonal-subtitle" class="text-xs text-amber-100/90">أهلاً بكم في كرو، نتمنى لكم أوقاتاً ممتعة وأجواءً ساحرة</p>
+                </div>
+            </div>
+            <span id="seasonal-tag" class="text-[11px] font-semibold px-3 py-1 bg-amber-500/30 backdrop-blur-md rounded-full border border-amber-300/40 text-amber-100">موسم خاص ✨</span>
+        </div>
+    </div>
+
+    <!-- Top Notice Bar for Admin Toggle Quick Link -->
+    <div id="top-bar" class="bg-brand-primary text-white text-xs py-2 px-4 flex justify-between items-center transition-colors">
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>أهلاً بكم في كرو - نكون جزءاً من يومك الذي تحبه</span>
+        </div>
+        <button onclick="toggleAdminView()" class="hover:underline flex items-center gap-1 font-semibold text-amber-200">
+            <i class="fa-solid fa-user-gear text-sm"></i>
+            <span id="view-toggle-text">دخول الأدمن</span>
+        </button>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-zinc-900/80 border-b border-gray-200 dark:border-zinc-800 transition-colors shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Brand Logo & Name -->
+            <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" onclick="switchTab('public-menu')">
+                <div id="logo-container" class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md transition-all overflow-hidden bg-brand-primary">
+                    <img id="brand-logo-img" src="" alt="CROW Logo" class="w-full h-full object-cover hidden">
+                    <svg id="brand-logo-svg" class="w-7 h-7 fill-current" viewBox="0 0 100 100">
+                        <path d="M50 10 C30 10, 10 30, 10 50 C10 70, 30 90, 50 90 C70 90, 90 70, 90 50 C90 30, 70 10, 50 10 Z M50 20 C60 20, 75 30, 75 45 C75 60, 60 70, 50 80 C40 70, 25 60, 25 45 C25 30, 40 20, 50 20 Z" fill="none" stroke="currentColor" stroke-width="6"/>
+                        <circle cx="50" cy="45" r="12" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 id="brand-name-display" class="brand-logo-text text-2xl font-bold tracking-wider text-gray-900 dark:text-white uppercase leading-none">CROW</h1>
+                    <p id="brand-slogan-display" class="text-[11px] text-gray-500 dark:text-zinc-400 mt-0.5">بنكون جزء من يومك اللي تحبه</p>
+                </div>
+            </div>
+
+            <!-- Controls: Theme Toggle & Admin Shortcut -->
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <button onclick="toggleDarkMode()" class="p-2.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-amber-400 hover:bg-gray-200 dark:hover:bg-zinc-700 transition" title="تبديل الوضع">
+                    <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                    <i class="fa-solid fa-sun text-lg hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6">
+
+        <!-- ================= PUBLIC CLIENT MENU VIEW ================= -->
+        <div id="public-view" class="space-y-8">
+
+            <!-- Hero Banner -->
+            <div id="hero-banner-box" class="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100 dark:border-zinc-800 text-white py-12 px-6 sm:px-10 text-center flex flex-col items-center justify-center transition-all bg-brand-primary" style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));">
+                <div id="hero-custom-bg" class="absolute inset-0 bg-cover bg-center opacity-30 hidden"></div>
+                <div class="relative z-10 flex flex-col items-center">
+                    <h2 id="hero-title" class="brand-logo-text text-4xl sm:text-5xl font-extrabold mb-3 tracking-widest uppercase">CROW CAFE</h2>
+                    <p id="hero-subtitle" class="text-lg sm:text-xl font-light opacity-90 max-w-xl">قهوة مختصة، حلويات طازجة، ولحظات يصنعها حب القهوة</p>
+                    <div class="mt-6 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                        <i class="fa-solid fa-coins text-amber-300"></i>
+                        <span>العملة المعتمدة: الريال السعودي (﷼)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter Navigation Bar -->
+            <div class="space-y-4">
+                <!-- Search Bar -->
+                <div class="relative max-w-md mx-auto">
+                    <input type="text" id="search-input" oninput="filterItems()" placeholder="ابحث عن مشروبك أو حلاك المفضل..." 
+                        class="w-full pl-10 pr-12 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl shadow-sm focus:ring-2 focus:ring-amber-500 focus:outline-none text-sm transition">
+                    <i class="fa-solid fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <button onclick="clearSearch()" id="clear-search-btn" class="hidden absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-white">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Category Filters Horizontal Pill Scroll -->
+                <div class="flex items-center justify-center gap-2 overflow-x-auto pb-2 pt-1 no-scrollbar px-2" id="category-pills">
+                    <!-- Dynamic Pills rendered via JS -->
+                </div>
+            </div>
+
+            <!-- SECTION: OFFERS / العروض الحالية -->
+            <section id="offers-section" class="space-y-4 hidden">
+                <div class="flex items-center space-x-2 space-x-reverse border-r-4 border-amber-500 pr-3">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">العروض الحالية المميزة 🔥</h3>
+                </div>
+                <div id="offers-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Offers dynamically populated -->
+                </div>
+            </section>
+
+            <!-- SECTION: NEW ARRIVALS / أحدث الإضافات -->
+            <section id="new-arrivals-section" class="space-y-4">
+                <div class="flex items-center justify-between border-r-4 border-amber-500 pr-3">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <span>أحدث الإضافات</span>
+                        <span class="text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full font-normal">جديد ✨</span>
+                    </h3>
+                </div>
+                <div id="new-arrivals-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- New arrivals dynamically populated -->
+                </div>
+            </section>
+
+            <!-- SECTION: MAIN MENU CATEGORIES & ITEMS -->
+            <section id="main-menu-section" class="space-y-10">
+                <!-- Categories and items rendered dynamically here -->
+            </section>
+
+            <!-- Empty State Display -->
+            <div id="empty-state" class="hidden text-center py-16 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-zinc-800">
+                <i class="fa-solid fa-mug-hot text-5xl text-gray-300 dark:text-zinc-700 mb-3"></i>
+                <p class="text-gray-500 dark:text-zinc-400 font-medium">لم نجد أي أصناف تطابق بحثك</p>
+                <button onclick="resetFilters()" class="mt-4 text-xs bg-brand-primary text-white px-4 py-2 rounded-xl font-semibold">عرض كل القائمة</button>
+            </div>
+
+        </div>
+
+        <!-- ================= ADMIN MANAGEMENT PANEL VIEW ================= -->
+        <div id="admin-view" class="hidden space-y-8">
+
+            <!-- Admin Authentication Overlay/Modal if not logged in -->
+            <div id="admin-login-modal" class="bg-white dark:bg-zinc-900 p-8 rounded-3xl shadow-xl border border-gray-100 dark:border-zinc-800 max-w-md mx-auto text-center space-y-6">
+                <div class="w-16 h-16 bg-brand-primary/10 text-brand-primary rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">تسجيل دخول الأدمن</h3>
+                    <p class="text-sm text-gray-500 dark:text-zinc-400 mt-1">الرجاء إدخال رمز المرور للتحكم بالمنيو</p>
+                </div>
+                <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                    <input type="password" id="admin-pin-input" placeholder="رمز المرور (الافتراضي: 1234)" 
+                        class="w-full text-center tracking-widest text-lg px-4 py-3 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-2xl focus:ring-2 focus:ring-brand-primary focus:outline-none">
+                    <p id="login-error" class="text-xs text-rose-500 hidden">رمز المرور غير صحيح!</p>
+                    <button type="submit" class="w-full py-3 bg-brand-primary text-white rounded-2xl font-semibold hover:opacity-90 transition shadow-md">
+                        دخول للوحة التحكم
+                    </button>
+                </form>
+                <p class="text-xs text-gray-400">تنويه: الرمز الافتراضي للتجربة هو <code class="bg-gray-100 dark:bg-zinc-800 px-2 py-0.5 rounded">1234</code></p>
+            </div>
+
+            <!-- Protected Admin Dashboard Content -->
+            <div id="admin-dashboard" class="hidden space-y-8">
+                <!-- Admin Header Toolbar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 shadow-sm">
+                    <div>
+                        <span class="text-xs text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wider">لوحة الإدارة والتخصيص</span>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">إدارة قائمة الطعام والهوية</h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openAddItemModal()" class="flex-1 sm:flex-none px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition">
+                            <i class="fa-solid fa-plus"></i>
+                <!-- SUB TAB 2: BRANDING & SEASON CUSTOMIZATION -->
+                <div id="admin-subtab-branding" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Brand Colors -->
+                    <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 shadow-sm space-y-5">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-paint-roller text-brand-primary"></i>
+                            <span>ألوان الهوية البصرية</span>
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-2">اللون الرئيسي (Primary Color)</label>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" id="color-primary-input" class="w-10 h-10 rounded-xl border-0 cursor-pointer">
+                                    <input type="text" id="color-primary-text" class="flex-1 text-xs px-3 py-2 bg-gray-50 dark:bg-zinc-800 border rounded-xl" readonly>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-2">اللون الثانوي (Secondary Color)</label>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" id="color-secondary-input" class="w-10 h-10 rounded-xl border-0 cursor-pointer">
+                                    <input type="text" id="color-secondary-text" class="flex-1 text-xs px-3 py-2 bg-gray-50 dark:bg-zinc-800 border rounded-xl" readonly>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-2">لون التمييز (Accent Color)</label>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" id="color-accent-input" class="w-10 h-10 rounded-xl border-0 cursor-pointer">
+                                    <input type="text" id="color-accent-text" class="flex-1 text-xs px-3 py-2 bg-gray-50 dark:bg-zinc-800 border rounded-xl" readonly>
+                                </div>
+                            </div>
+                            <button onclick="saveBrandingColors()" class="w-full py-2.5 bg-brand-primary text-white text-xs rounded-xl font-bold hover:opacity-90">
+                                حفظ التغييرات في الألوان
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Brand Logo & Text -->
+                    <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-gray-100 dark:border-zinc-800 shadow-sm space-y-5">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-signature text-brand-primary"></i>
+                            <span>شعار المقهى والنصوص</span>
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1">صورة الشعار (رفع صورة أو رابط)</label>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <input type="file" id="logo-file-input" accept="image/*" onchange="handleLogoFileUpload(event)" class="text-xs w-full file:mr-0 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-primary file:text-white hover:file:opacity-90 cursor-pointer">
+                                </div>
+                                <input type="url" id="logo-url-input" placeholder="أو ضع رابط الشعار مباشرة https://..." class="w-full text-xs px-3 py-2 bg-gray-50 dark:bg-zinc-800 border rounded-xl">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1">اسم الكافيه</label>
+                                <input type="text" id="brand-name-input" class="w-full text-sm px-4 py-2.5 bg-gray-50 dark:bg-zinc-800 border rounded-xl">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 dark:text-zinc-300 mb-1">الشعار / السلوجان</label>
+                                <input type="text" id="brand-slogan-input" class="w-full text-sm px-4 py-2.5 bg-gray-50 dark:bg-zinc-800 border rounded-xl">
+                            </div>
+                            <button onclick="saveBrandTexts()" class="w-full py-2.5 bg-brand-primary text-white text-xs rounded-xl font-bold hover:opacity-90">
+                                حفظ الشعار والنصوص
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Seasonal / Festive Banner Control -->
+                    <div class="md:col-span-2 bg-gradient-to-r from-amber-900/10 via-amber-800/10 to-amber-900/10 bg-white dark:bg-zinc-900 p-6 
